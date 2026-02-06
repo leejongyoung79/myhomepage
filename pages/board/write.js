@@ -5,20 +5,22 @@ import Layout from '@/components/Layout';
 export default function Write() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        const formData = {
-            title: e.target.title.value,
-            content: e.target.content.value,
-        };
+        const formData = new FormData();
+        formData.append('title', e.target.title.value);
+        formData.append('content', e.target.content.value);
+        if (image) {
+            formData.append('image', image);
+        }
 
         const res = await fetch('/api/posts', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
+            body: formData,
         });
 
         if (res.ok) {
@@ -37,6 +39,14 @@ export default function Write() {
                     <div className="field">
                         <label>Title</label>
                         <input type="text" name="title" required autoFocus />
+                    </div>
+                    <div className="field">
+                        <label>Image (Optional)</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setImage(e.target.files[0])}
+                        />
                     </div>
                     <div className="field">
                         <label>Content</label>
