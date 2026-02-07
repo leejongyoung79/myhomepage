@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 
 export default function Write() {
   const router = useRouter();
+  const fileInputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
+
+  const handleRemoveImage = () => {
+    setImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,10 +49,18 @@ export default function Write() {
             <input type="text" name="title" required autoFocus />
           </div>
           <div className="field">
-            <label>Image (Optional)</label>
+            <div className="label-row">
+              <label>Image (Optional)</label>
+              {image && (
+                <button type="button" onClick={handleRemoveImage} className="remove-img-btn">
+                  Remove Image
+                </button>
+              )}
+            </div>
             <input
               type="file"
               accept="image/*"
+              ref={fileInputRef}
               onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
@@ -74,10 +90,30 @@ export default function Write() {
         .field {
           margin-bottom: 1.5rem;
         }
+        .label-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+        }
         label {
           display: block;
-          margin-bottom: 0.5rem;
           color: var(--text-secondary);
+        }
+        .remove-img-btn {
+          background: rgba(255, 68, 68, 0.1);
+          color: #ff4444;
+          border: 1px solid #ff4444;
+          padding: 4px 10px;
+          border-radius: 4px;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          text-transform: none;
+        }
+        .remove-img-btn:hover {
+          background: #ff4444;
+          color: white;
         }
         input, textarea {
           width: 100%;

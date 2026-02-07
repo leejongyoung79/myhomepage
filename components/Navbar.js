@@ -10,7 +10,16 @@ export default function Navbar() {
     <nav className="navbar glass-panel">
       <div className="nav-content">
         <Link href="/" className="logo">
-          MOTOZ
+          <img
+            src="/logo.png"
+            alt="COLD & DARK"
+            className="logo-img"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'block';
+            }}
+          />
+          <span className="logo-text" style={{ display: 'none' }}>COLD & DARK</span>
         </Link>
         <div className="links">
           <NavLink href="/" label="HOME" active={isActive('/')} />
@@ -42,10 +51,21 @@ export default function Navbar() {
         }
 
         .logo {
-          font-weight: 700;
-          font-size: 1.5rem;
-          letter-spacing: 2px;
-          color: var(--text-primary);
+          display: flex;
+          align-items: center;
+          height: 100%;
+        }
+
+        .logo-img {
+          height: 45px;
+          width: auto;
+          display: block;
+          filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.3));
+          transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+          transform: scale(1.05);
         }
 
         .links {
