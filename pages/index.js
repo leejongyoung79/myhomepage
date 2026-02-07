@@ -6,7 +6,7 @@ export default function Home() {
       <div className="hero">
         <h1 className="title">
           <span className="fade-in d-1">COLD</span>
-          <span className="divider fade-in d-2">/</span>
+          <span className="divider fade-in d-2">&</span>
           <span className="fade-in d-3">DARK</span>
         </h1>
         <p className="subtitle fade-in d-4">
