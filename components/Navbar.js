@@ -2,25 +2,25 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function Navbar() {
-    const router = useRouter();
+  const router = useRouter();
 
-    const isActive = (path) => router.pathname === path;
+  const isActive = (path) => router.pathname === path;
 
-    return (
-        <nav className="navbar glass-panel">
-            <div className="nav-content">
-                <Link href="/" className="logo">
-                    MOTOZ
-                </Link>
-                <div className="links">
-                    <NavLink href="/" label="HOME" active={isActive('/')} />
-                    <NavLink href="/about" label="ABOUT" active={isActive('/about')} />
-                    <NavLink href="/board" label="BOARD" active={isActive('/board')} />
-                    <NavLink href="/contact" label="CONTACT" active={isActive('/contact')} />
-                </div>
-            </div>
+  return (
+    <nav className="navbar glass-panel">
+      <div className="nav-content">
+        <Link href="/" className="logo">
+          MOTOZ
+        </Link>
+        <div className="links">
+          <NavLink href="/" label="HOME" active={isActive('/')} />
+          <NavLink href="/about" label="ABOUT" active={isActive('/about')} />
+          <NavLink href="/board" label="BOARD" active={isActive('/board')} />
+          <NavLink href="/contact" label="CONTACT" active={isActive('/contact')} />
+        </div>
+      </div>
 
-            <style jsx>{`
+      <style jsx>{`
         .navbar {
           position: fixed;
           top: 0;
@@ -60,15 +60,15 @@ export default function Navbar() {
           }
         }
       `}</style>
-        </nav>
-    );
+    </nav>
+  );
 }
 
 function NavLink({ href, label, active }) {
-    return (
-        <Link href={href} className={`nav-link ${active ? 'active' : ''}`}>
-            {label}
-            <style jsx>{`
+  return (
+    <Link href={href} className={`nav-link ${active ? 'active' : ''}`}>
+      {label}
+      <style jsx>{`
         .nav-link {
           position: relative;
           color: var(--text-secondary);
@@ -90,6 +90,6 @@ function NavLink({ href, label, active }) {
           box-shadow: var(--glow-accent);
         }
       `}</style>
-        </Link>
-    );
+    </Link>
+  );
 }

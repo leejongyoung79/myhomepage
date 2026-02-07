@@ -3,65 +3,65 @@ import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 
 export default function Write() {
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [image, setImage] = useState(null);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-        const formData = new FormData();
-        formData.append('title', e.target.title.value);
-        formData.append('content', e.target.content.value);
-        if (image) {
-            formData.append('image', image);
-        }
+    const formData = new FormData();
+    formData.append('title', e.target.title.value);
+    formData.append('content', e.target.content.value);
+    if (image) {
+      formData.append('image', image);
+    }
 
-        const res = await fetch('/api/posts', {
-            method: 'POST',
-            body: formData,
-        });
+    const res = await fetch('/api/posts', {
+      method: 'POST',
+      body: formData,
+    });
 
-        if (res.ok) {
-            router.push('/board');
-        } else {
-            setLoading(false);
-            alert('Failed to post');
-        }
-    };
+    if (res.ok) {
+      router.push('/board');
+    } else {
+      setLoading(false);
+      alert('Failed to post');
+    }
+  };
 
-    return (
-        <Layout title="Write Post | Motoz">
-            <div className="glass-panel form-container">
-                <h1>Write Post</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="field">
-                        <label>Title</label>
-                        <input type="text" name="title" required autoFocus />
-                    </div>
-                    <div className="field">
-                        <label>Image (Optional)</label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => setImage(e.target.files[0])}
-                        />
-                    </div>
-                    <div className="field">
-                        <label>Content</label>
-                        <textarea name="content" required rows="10"></textarea>
-                    </div>
-                    <div className="actions">
-                        <button type="button" onClick={() => router.back()} className="cancel-btn">Cancel</button>
-                        <button type="submit" disabled={loading} className="submit-btn">
-                            {loading ? 'Posting...' : 'Post'}
-                        </button>
-                    </div>
-                </form>
-            </div>
+  return (
+    <Layout title="Write Post | Motoz">
+      <div className="glass-panel form-container">
+        <h1>Write Post</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label>Title</label>
+            <input type="text" name="title" required autoFocus />
+          </div>
+          <div className="field">
+            <label>Image (Optional)</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
+          <div className="field">
+            <label>Content</label>
+            <textarea name="content" required rows="10"></textarea>
+          </div>
+          <div className="actions">
+            <button type="button" onClick={() => router.back()} className="cancel-btn">Cancel</button>
+            <button type="submit" disabled={loading} className="submit-btn">
+              {loading ? 'Posting...' : 'Post'}
+            </button>
+          </div>
+        </form>
+      </div>
 
-            <style jsx>{`
+      <style jsx>{`
         .form-container {
           max-width: 800px;
           margin: 0 auto;
@@ -125,6 +125,6 @@ export default function Write() {
           border-color: var(--text-primary);
         }
       `}</style>
-        </Layout>
-    );
+    </Layout>
+  );
 }

@@ -16,7 +16,31 @@ export default async function handler(req, res) {
         const fileData = fs.readFileSync(dataFilePath);
         const posts = JSON.parse(fileData);
         // Return newest first
-        res.status(200).json(posts.reverse());
+        let sortedPosts = posts.reverse();
+
+        const { page = 1, limit = 10, search = '' } = req.query;
+
+        if (search) {
+            const searchLower = search.toLowerCase();
+            sortedPosts = sortedPosts.filter(post =>
+                post.title.toLowerCase().includes(searchLower) ||
+                post.content.toLowerCase().includes(searchLower)
+            );
+        }
+
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+        const startIndex = (pageNum - 1) * limitNum;
+        const endIndex = startIndex + limitNum;
+
+        const paginatedPosts = sortedPosts.slice(startIndex, endIndex);
+
+        res.status(200).json({
+            posts: paginatedPosts,
+            total: sortedPosts.length,
+            page: pageNum,
+            totalPages: Math.ceil(sortedPosts.length / limitNum)
+        });
     } else if (req.method === 'POST') {
         try {
             const { fields, files } = await new Promise((resolve, reject) => {
